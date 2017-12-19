@@ -1,0 +1,16 @@
+<html>
+    <head>
+      <title>Hello You are login!!</title>
+    </head>
+    <body>
+      <a href="/users/logout">Logout</a>
+<!-- we can use the line below to see all of our data in our template -->
+<!--{{ all_users }}-->
+<!-- with all the data we can then construct a more structured output -->
+  <p>ID: {{ request.session.id }}</p> 
+  <p>First Name: {{ single_user.first_name }}</p>
+   <p>Last Name: {{ single_user.last_name }}</p>
+   <p>Email: {{ single_user.email }}</p>
+   <hr>
+</body>
+</html>
