@@ -1,0 +1,21 @@
+<html>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% for quote in all_quotes %}
+<li>{{ quote }}</li>
+    {% endfor %}
+{{ request.session.id }} <a href="/users/{{request.session.id}}">Show Post</a><a href="/users/logout">Log out</a>
+<h2>Contribute a Quote</h2>      <form action='/quotes/add' method='POST'>
+  {% csrf_token %}
+  <p><label for="quoted_by">Quoted By:<input type="text" name="quoted_by"></label></p>
+  <p><label for="Message">Message:<textarea name="message" cols="40" rows="4"></textarea></label></p>
+  <input type="hidden" name="uid" value="{{ request.session.id }}"></input>
+  <p><input type="submit" value="Submit"></p>
+</form>
+</html>

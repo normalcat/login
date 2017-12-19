@@ -1,0 +1,16 @@
+<html>
+    <head>
+      <title></title>
+    </head>
+    <body>
+        {% for quote in all_quotes %}
+        {{ quote }}
+        {% endfor %}
+<!-- we can use the line below to see all of our data in our template -->
+<!--{{ all_users }}-->
+<!-- with all the data we can then construct a more structured output -->
+   <p>Post by {{ single_user.first_name }}</p>
+   <p><a href="/users/{{single_user.id}}/edit">Edit</a><a href="/quotes">Dashboard</a><a href="/users/logout">Logout</a>
+   <hr>
+</body>
+</html>
