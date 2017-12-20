@@ -14,27 +14,31 @@ def index(request):
         return redirect("/main")
 
     all_quotes = Quote.objects.all()
-    for quote in all_quotes:
-        print quote
-    #data = {
-    #    "all_users": all_users
-    #}
-    all_quotes = {}
+    all_favorites = Quote.objects.filter(liked_by = request.session['id'])
     data = {
-        "all_quotes": all_quotes
+        "all_quotes": all_quotes,
+        "all_favorites": all_favorites
     }
-    
-    return render(request, "quotes/index.html", all_quotes)
+    return render(request, "quotes/index.html", data)
 
 def add(request):
-    Quote.objects.add(request.POST)
+    error = Quote.objects.add_(request.POST, request.session['id'])
+    if error:
+        for x in error:
+            messages.add_message(request, messages.INFO,x)
+
     return redirect("/quotes")
 
 def show(request,id):
     all_quotes = Quote.objects.filter(posted_by = id)
-    for quote in all_quotes:
-        print quote
+    count = Quote.objects.filter(posted_by = id).count()
     data = {
-        "all_quotes": all_quotes
+        "all_quotes": all_quotes,
+        "count": count
     }
-    return render(request, "quotes/show.html", all_quotes)
+    return render(request, "quotes/show.html", data)
+
+def favorite(request):
+    single_quote=Quote.objects.favorite(request.POST, request.session['id'])
+    print single_quote.message
+    return redirect("/quotes")

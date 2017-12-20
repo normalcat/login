@@ -1,0 +1,20 @@
+#left{
+    width: 400px;
+    background-color: lightgrey;
+    display: inline-block;
+    vertical-align: top
+}
+
+#right{
+    width: 400px;
+    background-color: green;
+    display: inline-block;
+    vertical-align: top
+}
+
+#bottom{
+    width: 400px;
+    background-color: lightblue;
+    display: inline-block;
+    vertical-align: top; 
+}

@@ -17,7 +17,6 @@ def success(request):
             "single_user": single_user
         }
         return redirect('/quotes')
-        #return render(request,"users/success.html", data)
     except:
         messages.add_message(request, messages.INFO,"Please login\n")
         return redirect("/main")
@@ -27,7 +26,6 @@ def success(request):
 #=============================================================#
 def create(request):
     error = User.objects.validate(request.POST)
-    print error
     if error:
         for x in error:
             messages.add_message(request, messages.INFO,x)
@@ -50,9 +48,3 @@ def logout(request):
     request.session.clear()
     return redirect("/main")
 
-# def all(request):
-#     all_users = User.objects.all()
-#     data = {
-#         "all_users": all_users
-#     }
-#     return render('users/show_all.html',data)

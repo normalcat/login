@@ -1,21 +1,48 @@
 <html>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quotes/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
     {% if messages %}
     <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
     </ul>
     {% endif %}
-
+    <div id="left">
+    <a href="/users/{{request.session.id}}">Show Post</a><a href="/users/logout">Log out</a>    
+    <h2>All Quotes</h2>
     {% for quote in all_quotes %}
-<li>{{ quote }}</li>
+    <p><b><a href="/users/{{ quote.posted_by.id }}">
+        {{ quote.posted_by.first_name }} {{ quote.posted_by.last_name }}
+    </a></b></p>
+    <p><font color=red>{{ quote.quoted_by }}</font>: {{ quote.message }}</p>
+    <form action="/quotes/favorite" method="post">
+    {% csrf_token %}
+        <input type="hidden" name="qid" value="{{ quote.id }}">
+        <input type="submit" value="Add To Favorite"></intpu>
+    </form>
+    <hr>
     {% endfor %}
-{{ request.session.id }} <a href="/users/{{request.session.id}}">Show Post</a><a href="/users/logout">Log out</a>
-<h2>Contribute a Quote</h2>      <form action='/quotes/add' method='POST'>
-  {% csrf_token %}
-  <p><label for="quoted_by">Quoted By:<input type="text" name="quoted_by"></label></p>
-  <p><label for="Message">Message:<textarea name="message" cols="40" rows="4"></textarea></label></p>
-  <input type="hidden" name="uid" value="{{ request.session.id }}"></input>
-  <p><input type="submit" value="Submit"></p>
-</form>
+    </div>
+
+    <div id="right">
+    <h2>My favorite quotes</h2> 
+    {% for favorite in all_favorites %}
+    <p><b><a href="/users/{{ favorite.posted_by.id }}">
+        {{ favorite.posted_by.first_name }} {{ favorite.posted_by.last_name }}
+    </a></b></p>
+    <p><font color=red>{{ favorite.quoted_by }}</font>: {{ favorite.message }}</p>
+    <hr>
+    {% endfor %}
+    </div>
+    
+    <div id="bottom">
+    <h2>Contribute a Quote</h2> 
+    <form action='/quotes/add' method='POST'>
+        {% csrf_token %}
+        <p><label for="quoted_by">Quoted By:<input type="text" name="quoted_by"></label></p>
+        <p><label for="Message">Message:<textarea name="message" cols="40" rows="4"></textarea></label></p>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+    </div>
 </html>

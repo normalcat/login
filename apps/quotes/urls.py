@@ -4,5 +4,6 @@ from . import views
 urlpatterns = [
     url(r'quotes$', views.index),
     url(r'quotes/add$', views.add),
-    url(r'users/(?P<id>\d+)$$', views.show),
+    url(r'users/(?P<id>\d+)$', views.show),
+    url(r'quotes/favorite$', views.favorite),
 ]

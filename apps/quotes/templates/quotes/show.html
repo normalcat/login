@@ -3,14 +3,18 @@
       <title></title>
     </head>
     <body>
+        You have total {{ count }} quotes
         {% for quote in all_quotes %}
-        {{ quote }}
-        {% endfor %}
+        <p>Post by {{ quote.posted_by.first_name }}</p>
+            <font color="red">{{ quote.quoted_by }}</font>
+            {{ quote.message }}
 <!-- we can use the line below to see all of our data in our template -->
 <!--{{ all_users }}-->
 <!-- with all the data we can then construct a more structured output -->
-   <p>Post by {{ single_user.first_name }}</p>
-   <p><a href="/users/{{single_user.id}}/edit">Edit</a><a href="/quotes">Dashboard</a><a href="/users/logout">Logout</a>
+   <hr>
+        {% endfor %}
+   <p><a href="/quotes">Dashboard</a>
+    <p><a href="/users/logout">Logout</a>
    <hr>
 </body>
 </html>
