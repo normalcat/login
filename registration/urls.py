@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('apps.users.urls')),
     url(r'^', include('apps.quotes.urls')),
+    url(r'^', include('apps.friends.urls')),
 ]
