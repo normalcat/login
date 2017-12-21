@@ -1,0 +1,45 @@
+<html>
+    <head>
+      <title>Hello {{ request.session.id }} You are login!!</title>
+    </head>
+    <body>
+      <a href="/users/logout">Logout</a>
+      <h2>Hello {{request.session.first_name}} {{request.session.last_name}}</h2>
+      {% if all_friends %}
+      <h2>Your friend list</h2>
+      {% for friend in all_friends %}
+    <p><b>
+        {{ friend.first_name }} {{ friend.last_name }}
+        <a href="/users/{{ friend.id }}">View Profile</a>
+        <a href="/users/{{ friend.id }}/delete">Remove as Friend</a>
+    </a></b></p>
+    <hr>
+    {% endfor %}
+        {% else %}
+        <h2>You do not have friends</h2>
+        {% endif %}
+<!-- we can use the line below to see all of our data in our template -->
+<!--{{ all_users }}-->
+<!-- with all the data we can then construct a more structured output -->
+
+{% if count == 1 %}
+    <h2>No more users</h2>
+{% else %}
+    <h2>Other users not on your friend list</h2>
+    {% for user in all_users %}
+        {% if user.id != request.session.id %}
+        <p><b><a href="/users/{{ user.id }}">
+            {{ user.first_name }} {{ user.last_name }}
+        </a></b></p>
+        <p><font color=red>{{ user.email }}</font>: {{ user.bday }}</p>
+        <form action='/friends/add' method='POST'>
+            {% csrf_token %}
+            <input type="hidden" name="fid" value="{{ user.id }}"></input>
+            <p><input type="submit" value="Add to the friend list"></p>
+        </form>
+        <hr>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+</body>
+</html>

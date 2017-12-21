@@ -1,0 +1,32 @@
+<html>
+    <head>
+      <title>Hello You are login!!</title>
+    </head>
+    <body>
+      <a href="/users/logout">Logout</a>
+      <h2>Your friend list</h2>
+        {% for friend in all_friends %}
+    <p><b><a href="/users/{{ user.id }}">
+        {{ friend.friend_by.first_name }} {{ friend.friend_by.last_name }}
+    </a></b></p>
+        {% csrf_token %}
+    <hr>
+    {% endfor %}
+<!-- we can use the line below to see all of our data in our template -->
+<!--{{ all_users }}-->
+<!-- with all the data we can then construct a more structured output -->
+<h2>Other users not on your friend list</h2>
+{% for user in all_users %}
+    <p><b><a href="/users/{{ user.id }}">
+        {{ user.first_name }} {{ user.last_name }}
+    </a></b></p>
+    <p><font color=red>{{ user.email }}</font>: {{ user.bday }}</p>
+    <form action='/friends/add' method='POST'>
+        {% csrf_token %}
+        <input type="hidden" name="fid" value="{{ user.id }}"></input>
+        <p><input type="submit" value="Add to the friend list"></p>
+    </form>
+    <hr>
+    {% endfor %}
+</body>
+</html>

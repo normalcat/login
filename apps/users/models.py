@@ -61,11 +61,24 @@ class UserManager(models.Manager):
         new_user = User.objects.get(email = post['email'].lower())
         return new_user
 
+    def add_friend(self, post, uid):
+        single_user = User.objects.get(id = uid)
+        friend = User.objects.get(id = post['fid'])
+        single_user.friend_by.add(friend)
+        return self
+
+    def del_friend(self, fid, uid):
+        person = User.objects.get(id = uid)
+        friend = User.objects.get(id = fid)
+        person.friend_by.remove(friend)
+        return self
+
 class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
+    friend_by = models.ManyToManyField("self", related_name = "friends")
     bday = models.DateField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
